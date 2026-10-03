@@ -104,6 +104,13 @@ a:hover{text-decoration-thickness:2px}
   .split{grid-template-columns:minmax(0,4fr) minmax(0,8fr)}
   .band{padding-top:3rem;padding-bottom:3.5rem}
 }
+
+/* mobilní lišta Zavolat: viditelná i bez JS, skrytá, dokud je velké číslo na obrazovce */
+.callbar{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;align-items:center;gap:.6rem;padding:.75rem 1rem calc(.75rem + env(safe-area-inset-bottom,0px));background:var(--signal);color:var(--on-signal);font:700 1.25rem/1 var(--display);text-decoration:none;z-index:10}
+.callbar.away{transform:translateY(110%)}
+body{padding-bottom:4.25rem}
+@media (min-width:56rem){.callbar{display:none}body{padding-bottom:0}}
+@media (prefers-reduced-motion:no-preference){.callbar{transition:transform .2s}}
 </style>
 <script type="application/ld+json">
 {
@@ -233,6 +240,7 @@ a:hover{text-decoration-thickness:2px}
 </section>
 
 </main>
+<a class="callbar" href="tel:+420721928728">Zavolat odtah · 721 928 728</a>
 
 <footer class="foot frame">
   <p>MILHAUS TRANSPORT, IČO 07537671</p>
@@ -240,6 +248,10 @@ a:hover{text-decoration-thickness:2px}
 </footer>
 <script>
 (function(){var d=new Date().getDay(),li=document.querySelector('.days li[data-d="'+d+'"]');if(li)li.classList.add('today')})();
+</script>
+<script>
+(function(){var bar=document.querySelector('.callbar'),big=document.querySelector('.phone');if(!bar||!big||!('IntersectionObserver' in window))return;
+new IntersectionObserver(function(e){bar.classList.toggle('away',e[0].isIntersecting)}).observe(big)})();
 </script>
 </body>
 </html>
